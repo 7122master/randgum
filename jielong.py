@@ -1,10 +1,10 @@
 from pypinyin import lazy_pinyin, Style, pinyin
 
 words = []
-wordfiles = ['chinese_word.txt', 'chinese_poetry.txt', 'names.txt']
-for filename in wordfiles:
+wordfiles = [('chinese_word.txt', 1), ('chinese_poetry.txt', 0.7), ('names.txt', 10)]
+for filename, weight in wordfiles:
     f = open(filename, 'r', encoding='UTF-8')
-    words += [line.rstrip('\n') for line in f.readlines()]
+    words += [(line.rstrip('\n'), weight) for line in f.readlines()]
     f.close()
 
 # for word in words:
@@ -35,7 +35,7 @@ try:
     while True:
         S = input()
         print(pinyin(S, style=Style.TONE3, heteronym=True))
-        results = [(match(S, word), word) for word in words]
+        results = [(match(S, word) * weight, word) for word, weight in words]
         print(sorted(results, reverse=True)[0:100])
 except EOFError:
     pass

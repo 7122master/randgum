@@ -1,6 +1,6 @@
 from pypinyin import lazy_pinyin, Style, pinyin
 
-f = open('chinese_poetry.txt', 'r', encoding='UTF-8')
+f = open('chinese_word.txt', 'r', encoding='UTF-8')
 
 words = [line.rstrip('\n') for line in f.readlines()]
 

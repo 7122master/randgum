@@ -16,7 +16,7 @@ def build(words):
         for style, ratio in [(Style.TONE3, weight), (Style.NORMAL, weight * 0.8)]:
             p = lazy_pinyin(word, style=style)
             for i in range(1, len(p)+1):
-                res.setdefault(tuple(p[0:i]), []).append((ratio * (i + min(5, len(word))), word))
+                res.setdefault(tuple(p[0:i]), []).append((ratio * (i * 100 + min(5, len(word))), word))
     return res
 
 def search(s, mp):

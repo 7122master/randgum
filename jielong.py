@@ -35,7 +35,7 @@ try:
         print(lazy_pinyin(S, style=Style.TONE3))
         res = []
         for i in range(len(S)):
-            res.append(search(S[i:], W))
+            res += search(S[i:], W)
         print(sorted(res, reverse=True)[0:100])
 except EOFError:
     pass

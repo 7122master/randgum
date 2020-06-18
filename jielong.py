@@ -1,7 +1,8 @@
 from pypinyin import Style, pinyin, lazy_pinyin
+from tqdm import tqdm
 
 words = []
-wordfiles = [('chinese_word.txt', 1), ('chinese_poetry.txt', 0.8), ('names.txt', 10)]
+wordfiles = [('data/chinese_word.txt', 1), ('data/chinese_poetry.txt', 0.8), ('data/names.txt', 10)]
 for filename, weight in wordfiles:
     f = open(filename, 'r', encoding='UTF-8')
     words += [(line.rstrip('\n'), weight) for line in f.readlines()]
@@ -12,7 +13,7 @@ for filename, weight in wordfiles:
 
 def build(words):
     res = {}
-    for word, weight in words:
+    for word, weight in tqdm(words):
         for style, ratio in [(Style.TONE3, weight), (Style.NORMAL, weight * 0.8)]:
             p = lazy_pinyin(word, style=style)
             for i in range(1, len(p)+1):

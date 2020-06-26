@@ -7,6 +7,7 @@ import jieba
 
 jieba.load_userdict('../data/jieba_dict.txt')
 jieba.load_userdict('../data/chinese_word.txt')
+jieba.load_userdict('../data/chinese_word_2.txt')
 f = open('./test.txt', 'w')
 phrase = set()
 arr = ['0/864', '0/856', '0/860', '30/30362', '30/30014', '0/861']

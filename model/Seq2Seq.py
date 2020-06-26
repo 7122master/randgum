@@ -1,7 +1,7 @@
 import random
 import torch
 import torch.nn as nn
-
+import pdb
 from torch.autograd import Variable
 
 
@@ -15,6 +15,7 @@ class Seq2Seq(nn.Module):
     def forward(self, inputs, targets):
         input_vars, input_lengths = inputs
         encoder_outputs, encoder_hidden = self.encoder.forward(input_vars, input_lengths)
+        #pdb.set_trace()
         decoder_outputs, decoder_hidden = self.decoder.forward(context_vector=encoder_hidden, targets=targets)
         return decoder_outputs, decoder_hidden
 

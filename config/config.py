@@ -12,6 +12,8 @@ dataset_paths = [
 	'./data/slang.txt'
 	]
 
+
+
 # for training
 num_epochs = 100
 batch_size = 128
@@ -22,6 +24,7 @@ encoder_embedding_size = 256
 encoder_output_size = 256
 decoder_hidden_size = encoder_output_size
 teacher_forcing_ratio = .5
+lstm_size = 5
 # max_length = 20
 
 # for logging

@@ -106,11 +106,13 @@ def main():
     # define our models
     vanilla_encoder = VanillaEncoder(vocab_size=data_transformer.inp_size,
                                      embedding_size=config.encoder_embedding_size,
+                                     lstm_size = config.lstm_size,
                                      output_size=config.encoder_output_size)
 
     vanilla_decoder = VanillaDecoder(hidden_size=config.decoder_hidden_size,
                                      output_size=data_transformer.out_size,
                                      max_length=data_transformer.max_length,
+                                     lstm_size = config.lstm_size,
                                      teacher_forcing_ratio=config.teacher_forcing_ratio,
                                      sos_id=data_transformer.SOS_ID,
                                      use_cuda=config.use_cuda)
@@ -123,7 +125,7 @@ def main():
                       decoder=vanilla_decoder)
 
     trainer = Trainer(seq2seq, data_transformer, config.learning_rate, config.use_cuda)
-    trainer.train(num_epochs=config.num_epochs, batch_size=config.batch_size, pretrained=True)
+    trainer.train(num_epochs=config.num_epochs, batch_size=config.batch_size, pretrained=False)
 
 if __name__ == "__main__":
     main()

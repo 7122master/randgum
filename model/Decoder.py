@@ -1,19 +1,19 @@
 import random
 import torch
 import torch.nn as nn
-
+import pdb
 from torch.autograd import Variable
 
 class VanillaDecoder(nn.Module):
 
-    def __init__(self, hidden_size, output_size, max_length, teacher_forcing_ratio, sos_id, use_cuda):
+    def __init__(self, hidden_size, output_size, lstm_size, max_length, teacher_forcing_ratio, sos_id, use_cuda):
         """Define layers for a vanilla rnn decoder"""
         super(VanillaDecoder, self).__init__()
 
         self.hidden_size = hidden_size
         self.output_size = output_size
         self.embedding = nn.Embedding(output_size, hidden_size)
-        self.gru = nn.GRU(hidden_size, hidden_size)
+        self.lstm = nn.LSTM(input_size = hidden_size, num_layers = lstm_size, hidden_size = hidden_size)
         self.out = nn.Linear(hidden_size, output_size)
         self.log_softmax = nn.LogSoftmax(dim=-1)  # work with NLLLoss = CrossEntropyLoss
 
@@ -27,8 +27,11 @@ class VanillaDecoder(nn.Module):
         batch_size = inputs.size(1)
         embedded = self.embedding(inputs)
         embedded.view(1, batch_size, self.hidden_size)  # S = T(1) x B x N
-        rnn_output, hidden = self.gru(embedded, hidden)  # S = T(1) x B x H
+        #pdb.set_trace()
+        rnn_output, hidden = self.lstm(embedded, hidden)  # S = T(1) x B x H
+        #pdb.set_trace()
         rnn_output = rnn_output.squeeze(0)  # squeeze the time dimension
+        #pdb.set_trace()
         output = self.log_softmax(self.out(rnn_output))  # S = B x O
         return output, hidden
 
@@ -36,7 +39,7 @@ class VanillaDecoder(nn.Module):
 
         # Prepare variable for decoder on time_step_0
         target_vars, target_lengths = targets
-        batch_size = context_vector.size(1)
+        batch_size = context_vector[0].size(1)
         decoder_input = Variable(torch.LongTensor([[self.sos_id] * batch_size]))
 
         # Pass the context vector
@@ -67,7 +70,7 @@ class VanillaDecoder(nn.Module):
         return decoder_outputs, decoder_hidden
 
     def evaluate(self, context_vector):
-        batch_size = context_vector.size(1) # get the batch size
+        batch_size = context_vector[0].size(1) # get the batch size
         decoder_input = Variable(torch.LongTensor([[self.sos_id] * batch_size]))
         decoder_hidden = context_vector
 

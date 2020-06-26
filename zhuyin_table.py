@@ -49,5 +49,4 @@ def make_small():
 		s += ",'" + ch + "'"
 	s += ']'
 	print(s)
-make_small()
 

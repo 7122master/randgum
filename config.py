@@ -3,7 +3,7 @@ import torch
 use_cuda = True if torch.cuda.is_available() else False
 
 # for dataset
-dataset_path = 'data/chinese_word.txt'
+dataset_path = 'data/chinese_word_2.txt'
 
 # for training
 num_epochs = 20

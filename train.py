@@ -6,6 +6,7 @@ from Decoder import VanillaDecoder
 from Seq2Seq import Seq2Seq
 from dataLoader import DataTransformer
 import config
+from tqdm import tqdm
 
 
 class Trainer(object):
@@ -37,8 +38,9 @@ class Trainer(object):
         step = 0
 
         for epoch in range(0, num_epochs):
+            print("Epoch " + str(epoch))
             mini_batches = self.data_transformer.mini_batches(batch_size=batch_size)
-            for input_batch, target_batch in mini_batches:
+            for input_batch, target_batch in tqdm(mini_batches):
                 self.optimizer.zero_grad()
                 decoder_outputs, decoder_hidden = self.model(input_batch, target_batch)
 
@@ -94,7 +96,7 @@ class Trainer(object):
         decoded_indices = self.model.evaluate(eval_var)
         results = []
         for indices in decoded_indices:
-            results.append(self.data_transformer.vocab.indices_to_sequence(indices))
+            results.append(self.data_transformer.vocab.sound_to_sequence(indices))
         return results
 
 
@@ -121,7 +123,7 @@ def main():
                       decoder=vanilla_decoder)
 
     trainer = Trainer(seq2seq, data_transformer, config.learning_rate, config.use_cuda)
-    trainer.train(num_epochs=config.num_epochs, batch_size=config.batch_size, pretrained=False)
+    trainer.train(num_epochs=config.num_epochs, batch_size=config.batch_size, pretrained=True)
 
 if __name__ == "__main__":
     main()

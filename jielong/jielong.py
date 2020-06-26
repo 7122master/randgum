@@ -9,6 +9,7 @@ datapath = '../data/'
 wordfiles = [
     ('chinese_word.txt', 1),
     ('chinese_poetry.txt', 0.8),
+    ('chinese_word_2.txt', 1),
     ('names.txt', 10),
     ('jinyong_1.txt', 1),
     ('pttwords.txt', 1.5)

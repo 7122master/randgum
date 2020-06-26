@@ -6,7 +6,7 @@ import json
 f = open('./test.txt', 'w')
 phrase = set()
 
-for i in tqdm(range(1, 50000)):
+for i in tqdm(range(1, 500)):
     res = requests.get("https://fanti.dugushici.com/ancient_proses/" + str(i))
     soup = BeautifulSoup(res.text, 'html.parser')
     #print(soup)
@@ -22,15 +22,15 @@ for i in tqdm(range(1, 50000)):
                 now_sent += c
                 arr.append(now_str)
                 now_str = ""
-            elif c == "。" or c == "！" or c == "：" or c == "；":
+            elif c == "。" or c == "！" or c == "：" or c == "；" or c == "-" or c == "－" or c == "～":
                 now_sent += c
                 arr.append(now_str)
                 arr.append(now_sent)
                 now_str = ""
                 now_sent = ""
-            elif c == "(" or c == "（":
+            elif c == "(" or c == "（" or c == "「" or c == "【" or c == "『" or c == "〔":
                 tf = False
-            elif c == ")" or c == "）":
+            elif c == ")" or c == "）" or c == "」" or c == "】" or c == "』" or c == "〕":
                 tf = True
             elif tf:
                 now_sent += c

@@ -4,8 +4,8 @@ import random
 from Encoder import VanillaEncoder
 from Decoder import VanillaDecoder
 from Seq2Seq import Seq2Seq
-from DataHelper import DataTransformer
-from config import config
+from dataLoader import DataTransformer
+import config
 
 
 class Trainer(object):
@@ -18,7 +18,7 @@ class Trainer(object):
 
         # record some information about dataset
         self.data_transformer = data_transformer
-        self.vocab_size = self.data_transformer.vocab_size
+        self.out_size = self.data_transformer.out_size
         self.PAD_ID = self.data_transformer.PAD_ID
         self.use_cuda = use_cuda
 
@@ -60,7 +60,7 @@ class Trainer(object):
     def masked_nllloss(self):
         # Deprecated in PyTorch 2.0, can be replaced by ignore_index
         # define the masked NLLoss
-        weight = torch.ones(self.vocab_size)
+        weight = torch.ones(self.out_size)
         weight[self.PAD_ID] = 0
         if self.use_cuda:
             weight = weight.cuda()
@@ -102,12 +102,12 @@ def main():
     data_transformer = DataTransformer(config.dataset_path, use_cuda=config.use_cuda)
 
     # define our models
-    vanilla_encoder = VanillaEncoder(vocab_size=data_transformer.vocab_size,
+    vanilla_encoder = VanillaEncoder(vocab_size=data_transformer.inp_size,
                                      embedding_size=config.encoder_embedding_size,
                                      output_size=config.encoder_output_size)
 
     vanilla_decoder = VanillaDecoder(hidden_size=config.decoder_hidden_size,
-                                     output_size=data_transformer.vocab_size,
+                                     output_size=data_transformer.out_size,
                                      max_length=data_transformer.max_length,
                                      teacher_forcing_ratio=config.teacher_forcing_ratio,
                                      sos_id=data_transformer.SOS_ID,

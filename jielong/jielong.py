@@ -1,14 +1,24 @@
 from pypinyin import Style, pinyin, lazy_pinyin
 
-words = []
-wordfiles = [('data/chinese_word.txt', 1), ('data/chinese_poetry.txt', 0.8), ('data/names.txt', 10), ('data/jinyong_1.txt', 1)]
-for filename, weight in wordfiles:
-    f = open(filename, 'r', encoding='UTF-8')
-    words += [(line.rstrip('\n'), weight) for line in f.readlines()]
-    f.close()
+# zh-hans: 簡體, zh-hant: 繁體
+def Convert(s, Type):
+    from langconv import Converter
+    return Converter(Type).convert(s)
 
-# for word in words:
-#     print(lazy_pinyin(word, style=Style.TONE3))
+datapath = '../data/'
+wordfiles = [
+    ('chinese_word.txt', 1),
+    ('chinese_poetry.txt', 0.8),
+    ('names.txt', 10),
+    ('jinyong_1.txt', 1),
+    ('pttwords.txt', 1.5)
+]
+words = []
+for filename, weight in wordfiles:
+    f = open(datapath + filename, 'r', encoding='UTF-8')
+    proc = lambda s: (Convert(s[0], 'zh-hans'), weight * (float(s[1]) if len(s) > 1 else 1))
+    words += [proc(line.rstrip('\n').split(' ')) for line in f.readlines()]
+    f.close()
 
 def build(words):
     res = {}
@@ -30,10 +40,11 @@ print('Build Completed')
 try:
     while True:
         S = input()
+        S = Convert(S, 'zh-hans');
         print(lazy_pinyin(S, style=Style.TONE3))
         res = []
         for i in range(len(S)):
             res += search(S[i:], W)
-        print(sorted(res, reverse=True)[0:100])
+        print([(score, Convert(r, 'zh-hant')) for score, r in sorted(res, reverse=True)[0:100]])
 except EOFError:
     pass

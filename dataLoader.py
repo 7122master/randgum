@@ -1,7 +1,10 @@
+# -*- coding: UTF-8 -*-
+
 import torch
 import numpy as np
 from pypinyin import pinyin, Style
-
+import pdb
+from tqdm import tqdm
 from torch.autograd import Variable
 
 
@@ -35,14 +38,14 @@ class Vocabulary(object):
 			:param add_eos: if true, add the <EOS> tag at the end of given sentence
 			:param add_sos: if true, add the <SOS> tag at the beginning of given sentence
 		"""
-		index_sequence = [self.char2idx['SOS']] if add_sos else []
+		index_sequence = [self.zhuyin_ind['SOS']] if add_sos else []
 
 		for char in self.split_sequence(sequence):
-			char = pinyin(char, style=Style.BOPOMOFO)[0][0]
-			if char not in self.zhuyin_table:
+			ch = pinyin(char, style=Style.BOPOMOFO)[0][0][0]
+			if ch not in self.zhuyin_table:
 				index_sequence.append((self.zhuyin_ind['UNK']))
 			else:
-				index_sequence.append(self.zhuyin_ind[char])
+				index_sequence.append(self.zhuyin_ind[ch])
 
 		if add_eos:
 			index_sequence.append(self.zhuyin_ind['EOS'])
@@ -55,10 +58,10 @@ class Vocabulary(object):
 			:param add_eos: if true, add the <EOS> tag at the end of given sentence
 			:param add_sos: if true, add the <SOS> tag at the beginning of given sentence
 		"""
-		index_sequence = [self.char2idx['SOS']] if add_sos else []
+		index_sequence = [self.all_ind['SOS']] if add_sos else []
 
 		for char in self.split_sequence(sequence):
-			char = pinyin(char, style=Style.BOPOMOFO)[0]
+			char = pinyin(char, style=Style.BOPOMOFO)[0][0]
 			if char not in self.all_table:
 				index_sequence.append((self.all_ind['UNK']))
 			else:
@@ -104,9 +107,9 @@ class Vocabulary(object):
 		return [char for char in sequence]
 
 	def __str__(self):
-		str = "Vocab information:\n"
-		str += "Words: " + str(len(word_list))
-		return str
+		ret = "Vocab information:\n"
+		ret += "Words: " + str(len(self.word_list))
+		return ret
 
 
 class DataTransformer(object):
@@ -123,12 +126,12 @@ class DataTransformer(object):
 		self.inp_size = self.vocab.num_zhuyin
 		self.out_size = self.vocab.num_all
 		self.max_length = self.vocab.max_length
-		
+
 		self._build_training_set(path)
 
 	def _build_training_set(self, path):
 		# Change sentences to indices, and append <EOS> at the end of all pairs
-		for word in self.vocab.word_list:
+		for word in tqdm(self.vocab.word_list):
 			in_seq = self.vocab.sequence_to_zhuyin(word, add_eos=True)
 			out_seq = self.vocab.sequence_to_sound(word, add_eos=True)
 			# input and target are not the same in auto-encoder
@@ -179,7 +182,7 @@ class DataTransformer(object):
 		evaluation_batch = []
 
 		for word in words:
-			indices_seq = self.vocab.sequence_to_indices(word, add_eos=True)
+			indices_seq = self.vocab.sequence_to_zhuyin(word, add_eos=True)
 			evaluation_batch.append([indices_seq])
 
 		seq_pairs = sorted(evaluation_batch, key=lambda seqs: len(seqs[0]), reverse=True)
@@ -197,17 +200,17 @@ class DataTransformer(object):
 
 if __name__ == '__main__':
 	vocab = Vocabulary()
-	vocab.build_vocab('data/chinese_word.txt')
+	vocab.build_vocab('data/chinese_word_2.txt')
 	print(vocab)
 
 	test = "大家好"
 	print("Sequence before transformed:", test)
-	ids = vocab.sequence_to_indices(test)
+	ids = vocab.sequence_to_zhuyin(test)
 	print("Indices sequence:", ids)
-	sent = vocab.indices_to_sequence(ids)
+	sent = vocab.zhuyin_to_sequence(ids)
 	print("Sequence after transformed:",sent)
 
-	data_transformer = DataTransformer('data/chinese_word.txt', use_cuda=False)
+	data_transformer = DataTransformer('data/chinese_word_2.txt', use_cuda=False)
 
 	for ib, tb in data_transformer.mini_batches(batch_size=3):
 		print("B0-0")

@@ -22,15 +22,17 @@ class Vocabulary(object):
 
 		self.word_list = []
 
-	def build_vocab(self, data_path):
+	def build_vocab(self, data_paths):
 		"""Construct the relation between words and indices"""
-		with open(data_path, 'r', encoding='utf-8') as dataset:
-			for word in dataset:
-				word = word.strip('\n')
+		for data_path in data_paths:
+			print("Cur path: " + data_path)
+			with open(data_path, 'r', encoding='utf-8') as dataset:
+				for word in dataset:
+					word = word.strip('\n')
 
-				self.word_list.append(word)
-				if self.max_length < len(word):
-					self.max_length = len(word)
+					self.word_list.append(word)
+					if self.max_length < len(word):
+						self.max_length = len(word)
 
 	def sequence_to_zhuyin(self, sequence, add_eos=False, add_sos=False):
 		"""Transform a char sequence to index sequence
@@ -200,7 +202,14 @@ class DataTransformer(object):
 
 if __name__ == '__main__':
 	vocab = Vocabulary()
-	vocab.build_vocab('data/chinese_word_2.txt')
+	vocab.build_vocab([
+	'./data/chinese_word.txt',
+	'./data/chinese_word_2.txt',
+	'./data/chinese_poetry.txt',
+	'./data/chinese_poetry_2.txt',
+	'./data/names.txt',
+	'./data/slang.txt'
+	])
 	print(vocab)
 
 	test = "大家好"
@@ -210,7 +219,14 @@ if __name__ == '__main__':
 	sent = vocab.zhuyin_to_sequence(ids)
 	print("Sequence after transformed:",sent)
 
-	data_transformer = DataTransformer('data/chinese_word_2.txt', use_cuda=False)
+	data_transformer = DataTransformer([
+	'./data/chinese_word.txt',
+	'./data/chinese_word_2.txt',
+	'./data/chinese_poetry.txt',
+	'./data/chinese_poetry_2.txt',
+	'./data/names.txt',
+	'./data/slang.txt'
+	], use_cuda=False)
 
 	for ib, tb in data_transformer.mini_batches(batch_size=3):
 		print("B0-0")

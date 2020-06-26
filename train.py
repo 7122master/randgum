@@ -1,11 +1,11 @@
 import torch
 import random
 
-from Encoder import VanillaEncoder
-from Decoder import VanillaDecoder
-from Seq2Seq import Seq2Seq
-from dataLoader import DataTransformer
-import config
+from model.Encoder import VanillaEncoder
+from model.Decoder import VanillaDecoder
+from model.Seq2Seq import Seq2Seq
+from data.dataLoader import DataTransformer
+from config import config
 from tqdm import tqdm
 
 
@@ -101,7 +101,7 @@ class Trainer(object):
 
 
 def main():
-    data_transformer = DataTransformer(config.dataset_path, use_cuda=config.use_cuda)
+    data_transformer = DataTransformer(config.dataset_paths, use_cuda=config.use_cuda)
 
     # define our models
     vanilla_encoder = VanillaEncoder(vocab_size=data_transformer.inp_size,

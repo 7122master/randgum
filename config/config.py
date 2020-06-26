@@ -3,10 +3,17 @@ import torch
 use_cuda = True if torch.cuda.is_available() else False
 
 # for dataset
-dataset_path = 'data/chinese_word_2.txt'
+dataset_paths = [
+	'./data/chinese_word.txt',
+	'./data/chinese_word_2.txt',
+	'./data/chinese_poetry.txt',
+	'./data/chinese_poetry_2.txt',
+	'./data/names.txt',
+	'./data/slang.txt'
+	]
 
 # for training
-num_epochs = 20
+num_epochs = 100
 batch_size = 128
 learning_rate = 1e-3
 

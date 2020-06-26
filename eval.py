@@ -1,13 +1,13 @@
-from Encoder import VanillaEncoder
-from Decoder import VanillaDecoder
-from Seq2Seq import Seq2Seq
-from dataLoader import DataTransformer
+from model.Encoder import VanillaEncoder
+from model.Decoder import VanillaDecoder
+from model.Seq2Seq import Seq2Seq
+from data.dataLoader import DataTransformer
 from train import Trainer
-import config
+from config import config
 
 
 def main():
-    data_transformer = DataTransformer(config.dataset_path, use_cuda=config.use_cuda)
+    data_transformer = DataTransformer(config.dataset_paths, use_cuda=config.use_cuda)
 
     vanilla_encoder = VanillaEncoder(vocab_size=data_transformer.inp_size,
                                      embedding_size=config.encoder_embedding_size,

@@ -16,7 +16,9 @@ class Vocabulary(object):
 
         self.num_zhuyin = len(self.zhuyin_table)
         self.num_all = len(self.all_table)
-        self.max_length = 50 #Could be more or less, I don't know
+        self.max_length = 0 #Could be more or less, I don't know
+
+        self.word_list = []
 
     def build_vocab(self, data_path):
         """Construct the relation between words and indices"""
@@ -27,14 +29,6 @@ class Vocabulary(object):
                 self.word_list.append(word)
                 if self.max_length < len(word):
                     self.max_length = len(word)
-
-                chars = self.split_sequence(word)
-                for char in chars:
-                    if char not in self.char2idx:
-                        self.char2idx[char] = self.num_chars
-                        self.idx2char[self.num_chars] = char
-                        self.num_chars += 1
-
 
     def sequence_to_zhuyin(self, sequence, add_eos=False, add_sos=False):
         """Transform a char sequence to index sequence
@@ -112,8 +106,7 @@ class Vocabulary(object):
 
     def __str__(self):
         str = "Vocab information:\n"
-        for idx, char in self.idx2char.items():
-            str += "Char: %s Index: %d\n" % (char, idx)
+        str += "Words: " + str(len(word_list))
         return str
 
 
@@ -140,7 +133,7 @@ class DataTransformer(object):
             in_seq = self.vocab.sequence_to_zhuyin(word, add_eos=True)
             out_seq = self.vocab.sequence_to_sound(word, add_eos=True)
             # input and target are not the same in auto-encoder
-            self.indices_sequences.append([indices_seq, indices_seq[:]])
+            self.indices_sequences.append([in_seq, out_seq[:]])
 
     def mini_batches(self, batch_size):
         input_batches = []
@@ -205,17 +198,17 @@ class DataTransformer(object):
 
 if __name__ == '__main__':
     vocab = Vocabulary()
-    vocab.build_vocab('Google-10000-English.txt')
+    vocab.build_vocab('data/chinese_word.txt')
     print(vocab)
 
-    test = "helloworld"
+    test = "大家好"
     print("Sequence before transformed:", test)
     ids = vocab.sequence_to_indices(test)
     print("Indices sequence:", ids)
     sent = vocab.indices_to_sequence(ids)
     print("Sequence after transformed:",sent)
 
-    data_transformer = DataTransformer('Google-10000-English.txt', use_cuda=False)
+    data_transformer = DataTransformer('data/chinese_word.txt', use_cuda=False)
 
     for ib, tb in data_transformer.mini_batches(batch_size=3):
         print("B0-0")

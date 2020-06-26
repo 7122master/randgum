@@ -1,7 +1,7 @@
 import torch
 # Define hyper parameter
 use_cuda = True if torch.cuda.is_available() else False
-
+device = 'cpu'
 # for dataset
 dataset_paths = [
 	'./data/chinese_word.txt',
@@ -9,7 +9,8 @@ dataset_paths = [
 	'./data/chinese_poetry.txt',
 	'./data/chinese_poetry_2.txt',
 	'./data/names.txt',
-	'./data/slang.txt'
+	'./data/slang.txt',
+	'./data/chinese_article.txt',
 	]
 
 

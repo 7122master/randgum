@@ -80,7 +80,7 @@ class Trainer(object):
         print("Model has been saved as %s.\n" % self.checkpoint_name)
 
     def load_model(self):
-        self.model.load_state_dict(torch.load(self.checkpoint_name, map_location='cpu'))
+        self.model.load_state_dict(torch.load(self.checkpoint_name, map_location=config.device))
         print("Pretrained model has been loaded.\n")
 
     def tensorboard_log(self):
@@ -125,7 +125,7 @@ def main():
                       decoder=vanilla_decoder)
 
     trainer = Trainer(seq2seq, data_transformer, config.learning_rate, config.use_cuda)
-    trainer.train(num_epochs=config.num_epochs, batch_size=config.batch_size, pretrained=False)
+    trainer.train(num_epochs=config.num_epochs, batch_size=config.batch_size, pretrained=True)
 
 if __name__ == "__main__":
     main()

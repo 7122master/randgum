@@ -1,7 +1,7 @@
 from model.Encoder import VanillaEncoder
 from model.Decoder import VanillaDecoder
 from model.Seq2Seq import Seq2Seq
-from data.dataLoader import DataTransformer
+from data.letterLoader import DataTransformer
 from train import Trainer
 from config import config
 

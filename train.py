@@ -4,7 +4,7 @@ import random
 from model.Encoder import VanillaEncoder
 from model.Decoder import VanillaDecoder
 from model.Seq2Seq import Seq2Seq
-from data.dataLoader import DataTransformer
+from data.letterLoader import DataTransformer
 from config import config
 from tqdm import tqdm
 
@@ -125,7 +125,7 @@ def main():
                       decoder=vanilla_decoder)
 
     trainer = Trainer(seq2seq, data_transformer, config.learning_rate, config.use_cuda)
-    trainer.train(num_epochs=config.num_epochs, batch_size=config.batch_size, pretrained=True)
+    trainer.train(num_epochs=config.num_epochs, batch_size=config.batch_size, pretrained=False)
 
 if __name__ == "__main__":
     main()

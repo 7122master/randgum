@@ -50,7 +50,7 @@ class Trainer(object):
                 # logging
                 step += 1
                 if step % 50 == 0:
-                    print("Step:", step, "char-loss: ", cur_loss.data.numpy())
+                    print("Step:", step, "char-loss: ", cur_loss.data.cpu().numpy())
                     self.save_model()
                 cur_loss.backward()
 

@@ -125,7 +125,7 @@ def main():
                       decoder=vanilla_decoder)
 
     trainer = Trainer(seq2seq, data_transformer, config.learning_rate, config.use_cuda)
-    trainer.train(num_epochs=config.num_epochs, batch_size=config.batch_size, pretrained=False)
+    trainer.train(num_epochs=config.num_epochs, batch_size=config.batch_size, pretrained=True)
 
 if __name__ == "__main__":
     main()

@@ -1,11 +1,12 @@
 import torch
 import random
 
-from Encoder import VanillaEncoder
-from Decoder import VanillaDecoder
-from Seq2Seq import Seq2Seq
-from dataLoader import DataTransformer
-import config
+from model.Encoder import VanillaEncoder
+from model.Decoder import VanillaDecoder
+from model.Seq2Seq import Seq2Seq
+from data.letterLoader import DataTransformer
+from config import config
+from tqdm import tqdm
 
 
 class Trainer(object):
@@ -37,8 +38,9 @@ class Trainer(object):
         step = 0
 
         for epoch in range(0, num_epochs):
+            print("Epoch " + str(epoch))
             mini_batches = self.data_transformer.mini_batches(batch_size=batch_size)
-            for input_batch, target_batch in mini_batches:
+            for input_batch, target_batch in tqdm(mini_batches):
                 self.optimizer.zero_grad()
                 decoder_outputs, decoder_hidden = self.model(input_batch, target_batch)
 
@@ -48,7 +50,7 @@ class Trainer(object):
                 # logging
                 step += 1
                 if step % 50 == 0:
-                    print("Step:", step, "char-loss: ", cur_loss.data.numpy())
+                    print("Step:", step, "char-loss: ", cur_loss.data.cpu().numpy())
                     self.save_model()
                 cur_loss.backward()
 
@@ -78,7 +80,7 @@ class Trainer(object):
         print("Model has been saved as %s.\n" % self.checkpoint_name)
 
     def load_model(self):
-        self.model.load_state_dict(torch.load(self.checkpoint_name, map_location='cpu'))
+        self.model.load_state_dict(torch.load(self.checkpoint_name, map_location=config.device))
         print("Pretrained model has been loaded.\n")
 
     def tensorboard_log(self):
@@ -94,21 +96,23 @@ class Trainer(object):
         decoded_indices = self.model.evaluate(eval_var)
         results = []
         for indices in decoded_indices:
-            results.append(self.data_transformer.vocab.indices_to_sequence(indices))
+            results.append(self.data_transformer.vocab.sound_to_sequence(indices))
         return results
 
 
 def main():
-    data_transformer = DataTransformer(config.dataset_path, use_cuda=config.use_cuda)
+    data_transformer = DataTransformer(config.dataset_paths, use_cuda=config.use_cuda)
 
     # define our models
     vanilla_encoder = VanillaEncoder(vocab_size=data_transformer.inp_size,
                                      embedding_size=config.encoder_embedding_size,
+                                     lstm_size = config.lstm_size,
                                      output_size=config.encoder_output_size)
 
     vanilla_decoder = VanillaDecoder(hidden_size=config.decoder_hidden_size,
                                      output_size=data_transformer.out_size,
                                      max_length=data_transformer.max_length,
+                                     lstm_size = config.lstm_size,
                                      teacher_forcing_ratio=config.teacher_forcing_ratio,
                                      sos_id=data_transformer.SOS_ID,
                                      use_cuda=config.use_cuda)
@@ -121,7 +125,7 @@ def main():
                       decoder=vanilla_decoder)
 
     trainer = Trainer(seq2seq, data_transformer, config.learning_rate, config.use_cuda)
-    trainer.train(num_epochs=config.num_epochs, batch_size=config.batch_size, pretrained=False)
+    trainer.train(num_epochs=config.num_epochs, batch_size=config.batch_size, pretrained=True)
 
 if __name__ == "__main__":
     main()

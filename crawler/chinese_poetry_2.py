@@ -6,10 +6,12 @@ import json
 f = open('./test.txt', 'w')
 phrase = set()
 
-for i in tqdm(range(1, 500)):
+for i in tqdm(range(1, 5000)):
     res = requests.get("https://fanti.dugushici.com/ancient_proses/" + str(i))
     soup = BeautifulSoup(res.text, 'html.parser')
     #print(soup)
+    if len(soup.select('div[itemprop="articleBody"]')) < 1:
+        continue
     data = (soup.select('div[itemprop="articleBody"]')[0]).contents
     data = [s.strip("\n      ") for s in data[0::2]]
     arr = list()

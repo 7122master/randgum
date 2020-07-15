@@ -1,11 +1,11 @@
 import torch
 import random
 
-from model.Encoder import VanillaEncoder
-from model.Decoder import VanillaDecoder
-from model.Seq2Seq import Seq2Seq
-from letterLoader import DataTransformer
-from config import config
+from .model.Encoder import VanillaEncoder
+from .model.Decoder import VanillaDecoder
+from .model.Seq2Seq import Seq2Seq
+from .letterLoader import DataTransformer
+from .config import config
 from tqdm import tqdm
 
 

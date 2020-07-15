@@ -16,13 +16,13 @@ if device.type == 'cuda':
 
 # for dataset
 dataset_paths = [
-	'../data/chinese_word.txt',
-	'../data/chinese_word_2.txt',
-	'../data/chinese_poetry.txt',
-	'../data/chinese_poetry_2.txt',
-	'../data/names.txt',
-	'../data/slang.txt',
-	'../data/chinese_article.txt',
+	'./data/chinese_word.txt',
+	'./data/chinese_word_2.txt',
+	'./data/chinese_poetry.txt',
+	'./data/chinese_poetry_2.txt',
+	'./data/names.txt',
+	'./data/slang.txt',
+	'./data/chinese_article.txt',
 	]
 
 
@@ -41,4 +41,4 @@ lstm_size = 5
 # max_length = 20
 
 # for logging
-checkpoint_name = 'auto_encoder.pt'
+checkpoint_name = './zhuyin/auto_encoder.pt'

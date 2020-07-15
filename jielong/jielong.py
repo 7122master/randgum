@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 from pypinyin import Style, pinyin, lazy_pinyin
-from langconv import Converter
+from jielong.langconv import Converter
 
 class Solver:
     # zh-hans: 簡體, zh-hant: 繁體
@@ -14,7 +14,7 @@ class Solver:
         return sorted(candidate, reverse=True)[0:100]
 
     def __init__(self):
-        datapath = '../data/'
+        datapath = './data/'
         wordfiles = [
             ('chinese_word.txt', 1),
             ('chinese_poetry.txt', 0.8),

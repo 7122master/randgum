@@ -1,13 +1,18 @@
 # encoding=utf-8
 from flask import Flask, request
+from jielong import Solver
+import zhuyin
 
 app = Flask(__name__, static_url_path='')
 
+JL = Solver()
+
 @app.route('/jielong')
 def jielong():
-    return { "param": request.args.get("name") }
+    query = request.args.get("query")
+    return { "result": JL.solve(query) }
 
-@app.route('/zhuyun')
+@app.route('/zhuyin')
 def zhuyin():
     return {}
 

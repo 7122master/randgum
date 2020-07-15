@@ -1,11 +1,11 @@
-from model.Encoder import VanillaEncoder
-from model.Decoder import VanillaDecoder
-from model.Seq2Seq import Seq2Seq
-from letterLoader import DataTransformer
-from train import Trainer
-from config import config
+from .model.Encoder import VanillaEncoder
+from .model.Decoder import VanillaDecoder
+from .model.Seq2Seq import Seq2Seq
+from .letterLoader import DataTransformer
+from .train import Trainer
+from .config import config
 
-def main():
+def build():
     data_transformer = DataTransformer(config.dataset_paths, use_cuda=config.use_cuda)
 
     vanilla_encoder = VanillaEncoder(vocab_size=data_transformer.inp_size,
@@ -29,7 +29,10 @@ def main():
 
     trainer = Trainer(seq2seq, data_transformer, config.learning_rate, config.use_cuda)
     trainer.load_model()
+    return trainer
 
+def main():
+    trainer = build()
     while(True):
         testing_word = input('You say: ')
         if testing_word == "exit":

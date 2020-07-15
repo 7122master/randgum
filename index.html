@@ -10,7 +10,8 @@
         function onSubmit(param) {
           const formElement = document.getElementById(param + "_form");
           const query = formElement[0].value;
-          const uri = `${param}?query=${query}`
+          const uri = `${param}?query=${query}`;
+          console.log(uri);
           fetch(uri, { method:'GET' }).then(res => res.json()).then(function(data) {
               console.log(data);
           });

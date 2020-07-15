@@ -1,23 +1,48 @@
 <html>
-    <head>
-        <title>randgum</title>
-        <script>
-            function onSubmit() {
-                const formElement = document.getElementById("form");
-                const jielong = formElement[0].value;
-                const zhuyin = formElement[1].value;
-                alert(jielong + ',' + zhuyin);
-            }
-        </script>
-    </head>
-    <body>
-        <h1>爛梗產生器</h1>
-        <h3>
-            <form name='form' id='form'>
-              我想聽很爛的接龍： <input type='text' name='jielong' id='jielong' /> <br>
-              我想讓你猜注音文： <input type='text' name='zhuyin' id='zhuyin' /> <br>
-              <input type='button' name='submit' value='送出' onclick='onSubmit();' />
-            </form>
-        </h3>
-    </body>
+  <head>
+    <title>randgum</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+      function onSubmit() {
+        const formElement = document.getElementById("form");
+        const jielong = formElement[0].value;
+        const zhuyin = formElement[1].value;
+        alert(jielong + ',' + zhuyin);
+      }
+    </script>
+    <style type="text/css">
+      #jielong_form {
+        display: none;
+      }
+      #zhuyin_form {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>爛梗產生器</h1>
+    <button type="button" class="btn btn-info" id="jielong_button">我想聽很爛的接龍</button>
+    <button type="button" class="btn btn-info" id="zhuyin_button">我想讓你猜注音文</button>
+    <h3>
+      <form name='form' id='jielong_form'>
+        我想聽很爛的接龍： <input type='text' name='jielong' id='jielong' /> <br>
+        <input type='button' name='submit' value='送出' onclick='onSubmit("jielong");' />
+      </form>
+      <form name='form' id='zhuyin_form'>
+        我想讓你猜注音文： <input type='text' name='zhuyin' id='zhuyin' /> <br>
+        <input type='button' name='submit' value='送出' onclick='onSubmit("zhuyin");' />
+      </form>
+    </h3>
+    <script language="javascript">
+      $( "#jielong_button" ).click(function() {
+        $( "#jielong_form" ).css("display", "block");
+      });
+      $( "#zhuyin_button" ).click(function() {
+        $( "#zhuyin_form" ).css("display", "block");
+      });
+    </script>
+  </body>
 </html>

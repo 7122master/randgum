@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from pypinyin import Style, pinyin, lazy_pinyin
 
 # zh-hans: 簡體, zh-hant: 繁體

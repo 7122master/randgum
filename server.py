@@ -3,7 +3,7 @@ from flask import Flask, request
 import jielong.jielong as jielong
 import zhuyin.evaluate as zhuyin
 
-app = Flask(__name__, static_folder='')
+app = Flask(__name__, static_folder='static', static_url_path='')
 
 print('loading jielong...')
 JL = jielong.Solver()

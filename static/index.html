@@ -1,0 +1,90 @@
+  <html>
+    <head>
+      <title>randgum</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="css/index.css">
+      <script>
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                let temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+                // console.log(i, j)
+            }
+        }
+
+        function onSubmit(param) {
+          const formElement = document.getElementById(param + "_form");
+          const query = formElement[0].value;
+          const uri = `${param}?query=${query}`;
+          console.log(uri);
+          fetch(uri, { method:'GET' }).then(res => res.json()).then(function(data) {
+            console.log(data);
+            $( "#result" ).empty();
+            if (data.pinyin) {
+              $( "#result" ).append(`<h3>拼音分析: ${data.pinyin}</h3>`);
+              shuffleArray(data.results);
+              for(let i = 0; i < data.results.length && i < 10; i++) {
+                let res = data.results[i];
+                // console.log(res);
+                $( "#result" ).append(`<h5>${res}</h5>`);
+              }
+            } else {
+              $( "#result" ).append(`<h1>${data.result}</h1>`);
+            }
+          });
+        }
+      </script>
+      <style type="text/css">
+        #main {
+           width: 100%;
+           text-align: center;
+        }
+        h1 {
+           font-family: "Times New Roman", Times, serif;
+           font-size: 60px;
+        }
+        #jielong_form {
+          display: none;
+        }
+        #zhuyin_form {
+          display: none;
+        }
+      </style>
+    </head>
+    <body>
+      <div id="main">
+        <h1>Randgum</h1>
+        <button type="button" class="btn btn-info" id="jielong_button">我想聽很爛的接龍</button>
+        <button type="button" class="btn btn-info" id="zhuyin_button">我想讓你猜注音文</button>
+          <h3>
+            <form name='form' id='jielong_form'>
+              我想聽很爛的接龍： <input type='text' name='jielong' id='jielong' /> <br>
+              <input type='button' name='submit' value='submit' onclick='onSubmit("jielong");' />
+            </form>
+          </h3>
+          <h3>
+            <form name='form' id='zhuyin_form'>
+              我想讓你猜注音文： <input type='text' name='zhuyin' id='zhuyin' /> <br>
+              <input type='button' name='submit' value='submit' onclick='onSubmit("zhuyin");' />
+            </form>
+          </h3>
+      </div>
+      <div id="result"></div>
+      <script language="javascript">
+        $( "#jielong_button" ).click(function() {
+          $( "#jielong_form" ).css("display", "block");
+          $( "#zhuyin_form" ).css("display", "none");
+        });
+        $( "#zhuyin_button" ).click(function() {
+          $( "#zhuyin_form" ).css("display", "block");
+          $( "#jielong_form" ).css("display", "none");
+        });
+      </script>
+  </body>
+</html>
+

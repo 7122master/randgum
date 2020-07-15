@@ -1,10 +1,9 @@
 from model.Encoder import VanillaEncoder
 from model.Decoder import VanillaDecoder
 from model.Seq2Seq import Seq2Seq
-from data.letterLoader import DataTransformer
+from letterLoader import DataTransformer
 from train import Trainer
 from config import config
-
 
 def main():
     data_transformer = DataTransformer(config.dataset_paths, use_cuda=config.use_cuda)

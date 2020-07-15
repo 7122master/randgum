@@ -16,13 +16,13 @@ if device.type == 'cuda':
 
 # for dataset
 dataset_paths = [
-	'./data/chinese_word.txt',
-	'./data/chinese_word_2.txt',
-	'./data/chinese_poetry.txt',
-	'./data/chinese_poetry_2.txt',
-	'./data/names.txt',
-	'./data/slang.txt',
-	'./data/chinese_article.txt',
+	'../data/chinese_word.txt',
+	'../data/chinese_word_2.txt',
+	'../data/chinese_poetry.txt',
+	'../data/chinese_poetry_2.txt',
+	'../data/names.txt',
+	'../data/slang.txt',
+	'../data/chinese_article.txt',
 	]
 
 

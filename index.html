@@ -1,47 +1,54 @@
-<html>
-  <head>
-    <title>randgum</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script>
-      function onSubmit(param) {
-        const formElement = document.getElementById(param + "_form");
-        const name = formElement[0].value;
-        const uri = `http://127.0.0.1:5000/${param}?name=${name}`
-        fetch(uri, {
-          method:'GET',
-        })
-      }
-    </script>
-    <style type="text/css">
-      h1 {
-         align: center;
-         font-family: "Times New Roman", Times, serif;
-         font-size: 60px;
-      }
-      #jielong_form {
-        display: none;
-      }
-      #zhuyin_form {
-        display: none;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="main">
-      <h1>Randgum</h1>
-      <button type="button" class="btn btn-info" id="jielong_button">我想聽很爛的接龍</button>
-      <button type="button" class="btn btn-info" id="zhuyin_button">我想讓你猜注音文</button>
+  <html>
+    <head>
+      <title>randgum</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="css/index.css">
+      <script>
+        function onSubmit(param) {
+          const formElement = document.getElementById(param + "_form");
+          const name = formElement[0].value;
+          const uri = `http://127.0.0.1:5000/${param}?name=${name}`
+          fetch(uri, {
+            method:'GET',
+          })
+        }
+      </script>
+      <style type="text/css">
+        #main {
+           width: 100%;
+           text-align: center;
+        }
+        h1 {
+           font-family: "Times New Roman", Times, serif;
+           font-size: 60px;
+        }
+        #jielong_form {
+          display: none;
+        }
+        #zhuyin_form {
+          display: none;
+        }
+      </style>
+    </head>
+    <body>
+      <div id="main">
+        <h1>Randgum</h1>
+        <button type="button" class="btn btn-info" id="jielong_button">我想聽很爛的接龍</button>
+        <button type="button" class="btn btn-info" id="zhuyin_button">我想讓你猜注音文</button>
       <h3>
         <form name='form' id='jielong_form'>
           我想聽很爛的接龍： <input type='text' name='jielong' id='jielong' /> <br>
-          <input type='button' name='submit' value='送出' onclick='onSubmit("jielong");' />
+          <input type='button' name='submit' value='submit' onclick='onSubmit("jielong");' />
         </form>
+      </h3>
+
+      <h3>
         <form name='form' id='zhuyin_form'>
           我想讓你猜注音文： <input type='text' name='zhuyin' id='zhuyin' /> <br>
-          <input type='button' name='submit' value='送出' onclick='onSubmit("zhuyin");' />
+          <input type='button' name='submit' value='submit' onclick='onSubmit("zhuyin");' />
         </form>
       </h3>
     </div>

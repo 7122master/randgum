@@ -10,10 +10,10 @@
         function onSubmit(param) {
           const formElement = document.getElementById(param + "_form");
           const name = formElement[0].value;
-          const uri = `http://127.0.0.1:5000/${param}?name=${name}`
-          fetch(uri, {
-            method:'GET',
-          })
+          const uri = `${param}?name=${name}`
+          fetch(uri, { method:'GET' }).then(res => res.json()).then(function(data) {
+              console.log(data);
+          });
         }
       </script>
       <style type="text/css">
@@ -38,7 +38,7 @@
         <h1>Randgum</h1>
         <button type="button" class="btn btn-info" id="jielong_button">我想聽很爛的接龍</button>
         <button type="button" class="btn btn-info" id="zhuyin_button">我想讓你猜注音文</button>
-      <h3>
+          <h3>
         <form name='form' id='jielong_form'>
           我想聽很爛的接龍： <input type='text' name='jielong' id='jielong' /> <br>
           <input type='button' name='submit' value='submit' onclick='onSubmit("jielong");' />

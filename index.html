@@ -9,10 +9,10 @@
       function onSubmit(param) {
         const formElement = document.getElementById(param + "_form");
         const name = formElement[0].value;
-        const uri = `http://127.0.0.1:5000/${param}?name=${name}`
-        fetch(uri, {
-          method:'GET',
-        })
+        const uri = `${param}?name=${name}`
+        fetch(uri, { method:'GET' }).then(res => res.json()).then(function(data) {
+            console.log(data);
+        });
       }
     </script>
     <style type="text/css">

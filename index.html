@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>randgum</title>
+        <script>
+            function onSubmit() {
+                const formElement = document.getElementById("form");
+                const jielong = formElement[0].value;
+                const zhuyin = formElement[1].value;
+                alert(jielong + ',' + zhuyin);
+            }
+        </script>
+    </head>
+    <body>
+        <h1>爛梗產生器</h1>
+        <h3>
+            <form name='form' id='form'>
+              我想聽很爛的接龍： <input type='text' name='jielong' id='jielong' /> <br>
+              我想讓你猜注音文： <input type='text' name='zhuyin' id='zhuyin' /> <br>
+              <input type='button' name='submit' value='送出' onclick='onSubmit();' />
+            </form>
+        </h3>
+    </body>
+</html>

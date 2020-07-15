@@ -5,8 +5,15 @@ from .letterLoader import DataTransformer
 from .train import Trainer
 from .config import config
 
+import pickle
+
 def build():
-    data_transformer = DataTransformer(config.dataset_paths, use_cuda=config.use_cuda)
+    # data_transformer = DataTransformer(config.dataset_paths, use_cuda=config.use_cuda)
+    # with open('zhuyin/data_transformer.pkl', 'wb') as f:
+    #     pickle.dump(data_transformer, f, -1)
+    # exit()
+    with open('zhuyin/data_transformer.pkl', 'rb') as f:
+        data_transformer = pickle.load(f)
 
     vanilla_encoder = VanillaEncoder(vocab_size=data_transformer.inp_size,
                                      embedding_size=config.encoder_embedding_size,

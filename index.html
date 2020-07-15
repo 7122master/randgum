@@ -9,8 +9,8 @@
       <script>
         function onSubmit(param) {
           const formElement = document.getElementById(param + "_form");
-          const name = formElement[0].value;
-          const uri = `${param}?name=${name}`
+          const query = formElement[0].value;
+          const uri = `${param}?query=${query}`
           fetch(uri, { method:'GET' }).then(res => res.json()).then(function(data) {
               console.log(data);
           });

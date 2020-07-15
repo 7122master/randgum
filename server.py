@@ -5,8 +5,10 @@ import zhuyin.evaluate as zhuyin
 
 app = Flask(__name__, static_folder='')
 
+print('loading jielong...')
 JL = jielong.Solver()
 print('jielong build complete')
+
 print('loading zhuyin...')
 ZY = zhuyin.build()
 print('zhuyin load complete')
@@ -17,12 +19,14 @@ def root():
 
 @app.route('/jielong')
 def jielong():
-    query = request.args.get('name')
-    return { "result": JL.solve(query) }
+    query = request.args.get('query')
+    pinyin, results = JL.solve(query)
+    return { "pinyin": pinyin, "results": results }
 
 @app.route('/zhuyin')
 def zhuyin():
-    query = request.args.get('name')
+    query = request.args.get('query')
+    print(ZY.evaluate(query))
     return { "result": ZY.evaluate(query) }
 
 if __name__ == "__main__":

@@ -7,14 +7,14 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
       <link rel="stylesheet" type="text/css" href="css/index.css">
       <script>
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                let j = Math.floor(Math.random() * (i + 1));
-                let temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
-                // console.log(i, j)
+        function sample(arr) {
+            let indices = [];
+            for(let i = 0; i < 20; i++) {
+                let index = Math.floor(Math.random() * arr.length);
+                if(!(index in indices)) indices.push(index);
+                if(indices.length >= 10) break;
             }
+            return indices.sort((a,b) => a-b).map(e => arr[e]);
         }
 
         function onSubmit(param) {
@@ -27,12 +27,8 @@
             $( "#result" ).empty();
             if (data.pinyin) {
               $( "#result" ).append(`<h3>拼音分析: ${data.pinyin}</h3>`);
-              shuffleArray(data.results);
-              for(let i = 0; i < data.results.length && i < 10; i++) {
-                let res = data.results[i];
-                // console.log(res);
-                $( "#result" ).append(`<h5>${res}</h5>`);
-              }
+              let results = sample(data.results);
+              for(let res of results) $( "#result" ).append(`<h5>${res}</h5>`);
             } else {
               $( "#result" ).append(`<h1>${data.result}</h1>`);
             }
@@ -53,6 +49,9 @@
         }
         #zhuyin_form {
           display: none;
+        }
+        #result {
+            text-align:center;
         }
       </style>
     </head>

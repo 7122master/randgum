@@ -51,7 +51,7 @@
           display: none;
         }
         #result {
-            text-align:center;
+            text-align: center;
         }
       </style>
     </head>
@@ -62,14 +62,14 @@
         <button type="button" class="btn btn-info" id="zhuyin_button">我想讓你猜注音文</button>
           <h3>
             <form name='form' id='jielong_form'>
-              我想聽很爛的接龍： <input type='text' name='jielong' id='jielong' /> <br>
-              <input type='button' name='submit' value='submit' onclick='onSubmit("jielong");' />
+              <input type='text' name='jielong' id='jielong' placeholder='請輸入一個詞語'/> <br>
+              <input type='button' class='btn btn-info submit' name='submit' value='submit' onclick='onSubmit("jielong");' />
             </form>
           </h3>
           <h3>
             <form name='form' id='zhuyin_form'>
-              我想讓你猜注音文： <input type='text' name='zhuyin' id='zhuyin' /> <br>
-              <input type='button' name='submit' value='submit' onclick='onSubmit("zhuyin");' />
+              <input type='text' name='zhuyin' id='zhuyin' placeholder='請輸入注音符號'/> <br>
+              <input type='button' class='btn btn-info submit' name='submit' value='submit' onclick='onSubmit("zhuyin");' />
             </form>
           </h3>
       </div>
